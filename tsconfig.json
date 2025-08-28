@@ -1,0 +1,58 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // =============================
+    // 📂 File Layout
+    // =============================
+    // "rootDir": "./src",   // Folder sumber kode utama
+    // "outDir": "./dist",   // Folder hasil build setelah compile
+
+    // =============================
+    // 🌍 Environment Settings
+    // =============================
+    "module": "commonjs",        // Pakai CommonJS biar cocok sama Node.js & library Express
+    "target": "esnext",          // Output JavaScript modern (ESNext) agar fitur terbaru tetap ada
+    "types": ["node", "express"],                
+    "moduleResolution": "node",  // Resolusi import ala Node.js (cari index.ts / index.js)
+    "esModuleInterop": true,     // ✅ Wajib: supaya bisa import library CommonJS pakai `import express from 'express'`
+
+    // 📌 Catatan: kalau butuh Node.js built-in types (fs, path, dll) aktifkan ini:
+    // "lib": ["esnext"],         // API modern dari JS
+    // "types": ["node"],         // Tambahkan definisi Node.js
+    // lalu install: npm i -D @types/node
+
+    // =============================
+    // 📝 Other Outputs
+    // =============================
+    "sourceMap": true,           // Buat file .map → debugging lebih mudah
+    "declaration": true,         // Generate .d.ts untuk tiap file → membantu auto-complete
+    "declarationMap": true,      // Peta deklarasi agar trace tipe balik ke source
+
+    // =============================
+    // 🔒 Stricter Typechecking
+    // =============================
+    "noUncheckedIndexedAccess": true,      // Array/object access bisa undefined → lebih aman
+    "exactOptionalPropertyTypes": true,    // Properti optional harus sesuai (undefined beda dengan tidak ada)
+
+    // =============================
+    // 🎨 Style / Clean Code
+    // =============================
+    // "noImplicitReturns": true,           // Wajib return di semua cabang fungsi
+    // "noImplicitOverride": true,          // Harus tulis `override` saat override method
+    // "noUnusedLocals": true,              // Error kalau ada variabel tidak terpakai
+    // "noUnusedParameters": true,          // Error kalau parameter tidak terpakai
+    // "noFallthroughCasesInSwitch": true,  // Error kalau case switch tembus ke bawah
+    // "noPropertyAccessFromIndexSignature": true, // Harus akses index pakai bracket []
+
+    // =============================
+    // ⭐ Recommended Defaults
+    // =============================
+    "strict": true,                  // Aktifkan semua aturan strict → best practice
+    "jsx": "react-jsx",              // Setting default React JSX (tidak terpakai di backend, tapi biar aman)
+    "verbatimModuleSyntax": false,   // False: biar auto-handle `import = require` vs `import ... from ...`
+    "isolatedModules": true,         // Tiap file TS bisa di-compile terpisah (wajib kalau pakai ts-node / Babel)
+    "noUncheckedSideEffectImports": true, // Import hanya boleh kalau ada efek (biar lebih jelas)
+    "moduleDetection": "force",      // Paksa semua file dianggap module (butuh explicit export/import)
+    "skipLibCheck": true,             // Skip cek type di node_modules biar compile lebih cepat
+  },
+}
