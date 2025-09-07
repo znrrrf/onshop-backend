@@ -1,6 +1,5 @@
-
-import {Router, Request, Response} from "express";
-import {pool} from "../config/db";
+import nodemailer from 'nodemailer';
+import {Request, Response} from "express";
 import dotenv from 'dotenv';
 import { validateRequiredFields } from "../utils/validators";
 import bcrypt from "bcrypt";
@@ -11,6 +10,53 @@ import { AuthenticatedRequest } from "../types/auth";
 dotenv.config();
 
 type DatauserType = {id: number, username: string, email: string, password: string}
+
+export async function sendVerification(req: Request, res: Response) {
+    try {
+        const {email} = req.body
+
+        if (!email) {
+             return res
+            .status(400)
+            .json({ error: `Email is required!` });
+        }
+
+        const firstname= 'new'
+        const lastname= 'user'
+        const username = email.split("@")[0];
+        const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
+        const expiresAt = new Date(Date.now() + 5 * 60 * 1000); 
+
+        await UserService.insertOtp(email, otp, expiresAt, username, firstname, lastname)
+
+        console.log("env :", process.env.EMAIL_PASS)
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        await transporter.sendMail({
+            from: `"My App" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Email Verification Code",
+            text: `Your verification code is: ${otp}`,
+        });
+
+
+        return res.status(201).json({
+            message: "success",
+            data: {},
+        });
+
+    } catch (err) {
+         console.log("Error sendverification :", err)
+        res.status(500).json({error: "Internal server error, failed to sendVerification!"})
+    }
+}
 
 export async function register(req: Request, res: Response) {
     try {

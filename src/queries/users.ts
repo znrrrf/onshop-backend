@@ -16,10 +16,16 @@ export const INSERT_USER = `
   RETURNING id, firstname, lastname, username, email
 `;
 
-export const INSERT_USER_TOKEN = `
+export const UPDATE_USER_TOKEN = `
   UPDATE "users"
   SET token = $1
   WHERE email = $2
   RETURNING id, username, email, token;
 `;
 
+
+export const INSERT_USER_OTP = `
+  INSERT INTO users (email, otp, otp_expired, username, firstname, lastname) 
+  VALUES ($1,$2,$3,$4,$5,$6)
+  ON CONFLICT (email) DO UPDATE SET otp=$2, otp_expired=$3, username=$4, firstname=$5, lastname=$6
+`;

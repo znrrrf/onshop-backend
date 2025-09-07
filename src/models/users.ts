@@ -32,11 +32,29 @@ export const User = sequelize.define("User", {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   token: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  otp: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  otp_expired: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  verify: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  role: {
+     type: DataTypes.ENUM("admin", "super_admin", "user"), 
+    allowNull: false,
+    defaultValue: "user"
   },
    createdAt: {
     type: DataTypes.DATE,
