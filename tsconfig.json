@@ -54,5 +54,6 @@
     "noUncheckedSideEffectImports": true, // Import hanya boleh kalau ada efek (biar lebih jelas)
     "moduleDetection": "force",      // Paksa semua file dianggap module (butuh explicit export/import)
     "skipLibCheck": true,             // Skip cek type di node_modules biar compile lebih cepat
+    "resolveJsonModule": true // untuk membaca json
   },
 }
